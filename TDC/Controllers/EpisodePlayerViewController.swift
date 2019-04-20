@@ -12,8 +12,8 @@ import AVFoundation
 class EpisodePlayerViewController: TDCViewController {
     
     //MARK: - Outlets
-    @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var topView: RoundShadowView!
+    @IBOutlet weak var bottomView: RoundShadowView!
     
     @IBOutlet weak var prevTrackButton: UIButton!
     @IBOutlet weak var rewindButton: UIButton!
@@ -26,11 +26,13 @@ class EpisodePlayerViewController: TDCViewController {
     
     //MARK: - Variables
     
+    let playedEpisode = PlayedEpisode()
+    var episodePlayer = AVAudioPlayer()
+
     var episodeTitle = ""
     var episodeUrl = ""
     var currentButton = CurrentButton.play
-    var episodePlayer = AVAudioPlayer()
-    var episodeTime: Double = 0
+    var episodeTime: Double = 0.00
 
     
     //MARK: - Lifecycle Methods
@@ -75,15 +77,23 @@ class EpisodePlayerViewController: TDCViewController {
     }
     
     func playEpisode() {
+        episodeImage.addSubview(loadingSpinner)
+        //        loginButton.addSubview(loginSpinner)
+        loadingSpinner.centerXAnchor.constraint(equalTo: episodeImage.centerXAnchor).isActive = true
+        loadingSpinner.centerYAnchor.constraint(equalTo: episodeImage.centerYAnchor).isActive = true
+        loadingSpinner.startAnimating()
+        
+        
         playPauseButton.setImage(UIImage(named:"pauseButtonImage"), for: .normal)
         currentButton = .pause
         
         // download mp3
         let urlstring = episodeUrl
-        if let url = URL(string: urlstring) {
-        downloadFileFromURL(url: url)
-        play(url: url)
-        }
+        downloadAndSaveFile(urlString: urlstring)
+//        if let url = URL(string: urlstring) {
+//        downloadFileFromURL(url: url)
+//        play(url: url)
+//        }
     }
     
     
@@ -92,7 +102,28 @@ class EpisodePlayerViewController: TDCViewController {
         playPauseButton.setImage(UIImage(named:"playButtonImage"), for: .normal)
         currentButton = .play
         episodePlayer.pause()
+//        saveEpisodeAtCurrentTime()
+    }
+    
+    func saveEpisodeAtCurrentTime() {
+        
         episodeTime = episodePlayer.currentTime
+        
+        playedEpisode.episodeTime = episodeTime
+        playedEpisode.episodeTitle = episodeTitle
+        playedEpisode.episodeUrl = episodeUrl
+        playedEpisode.episodeFinished = false
+        
+        for episode in TempItem.playedArray {
+            episode.episodePlayedLast = false
+        }
+        
+        playedEpisode.episodePlayedLast = true
+        
+        try! realm.write {
+            realm.add(playedEpisode)
+        }
+        
     }
     
     
@@ -145,12 +176,70 @@ class EpisodePlayerViewController: TDCViewController {
             self.episodePlayer = try AVAudioPlayer(contentsOf: url)
             episodePlayer.prepareToPlay()
             episodePlayer.volume = 1.0
-            episodePlayer.play()
+            if episodeTime != 0.00 {
+                episodePlayer.pause()
+                episodePlayer.duration
+                loadingSpinner.stopAnimating()
+
+            } else {
+                episodePlayer.play()
+                loadingSpinner.stopAnimating()
+            }
         } catch let error as NSError {
             //self.player = nil
             print(error.localizedDescription)
         } catch {
             print("AVAudioPlayer init failed")
+        }
+    }
+    
+    
+    //MARK: - Download and save file:
+    
+    func downloadAndSaveFile(urlString: String) {
+        if let audioUrl = URL(string: urlString) {
+            //            if let audioUrl = URL(string: "http://freetone.org/ring/stan/iPhone_5-Alarm.mp3") {
+            
+            // then lets create your document folder url
+            let documentsDirectoryURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            
+            // lets create your destination file url
+            let destinationUrl = documentsDirectoryURL.appendingPathComponent(audioUrl.lastPathComponent)
+            print(destinationUrl)
+            
+            // to check if it exists before downloading it
+            if FileManager.default.fileExists(atPath: destinationUrl.path) {
+                print("The file already exists at path")
+                do {
+                    let bombSoundEffect = try AVAudioPlayer(contentsOf: destinationUrl)
+                    bombSoundEffect.play()
+                } catch {
+                    // couldn't load file :(
+                }
+                // if the file doesn't exist
+            } else {
+                
+                // you can use NSURLSession.sharedSession to download the data asynchronously
+                URLSession.shared.downloadTask(with: audioUrl, completionHandler: { (location, response, error) -> Void in
+                    guard let location = location, error == nil else { return }
+                    do {
+                        // after downloading your file you need to move it to your destination url
+                        try FileManager.default.moveItem(at: location, to: destinationUrl)
+                        //                        let path = destinationUrl
+                        //                        let url = URL(fileURLWithPath: path)
+                        
+                        do {
+                            let bombSoundEffect = try AVAudioPlayer(contentsOf: destinationUrl)
+                            bombSoundEffect.play()
+                        } catch {
+                            // couldn't load file :(
+                        }
+                        print("File moved to documents folder")
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                    }
+                }).resume()
+            }
         }
     }
     

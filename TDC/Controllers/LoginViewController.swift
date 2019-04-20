@@ -31,7 +31,6 @@ class LoginViewController: TDCViewController {
     
     // MARK: - variables and constants
     
-    let dataModels = DataModels()
     var saveUsername = false
     var useBioAuth = false
     var currentUser: Results<UserObject>?
@@ -43,6 +42,10 @@ class LoginViewController: TDCViewController {
         retrieveData()
         setupView()
         getData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        loadingSpinner.stopAnimating()
     }
     
     func setupView() {
@@ -65,6 +68,9 @@ class LoginViewController: TDCViewController {
     
     func retrieveData() {
         currentUser = realm.objects(UserObject.self)
+        let playedEpisodes = realm.objects(PlayedEpisode.self)
+        
+        //MARK: - process user data
         if let user = currentUser?.first {
             userObject.userName = user.userName
             userObject.saveUsername = user.saveUsername
@@ -85,9 +91,29 @@ class LoginViewController: TDCViewController {
                 allowBioAuthSwitch.setOn(false, animated: false)
             }
         }
+        
+        //MARK: - process played episodes
+        
+        let count = playedEpisodes.count
+        if count > 0 {
+            for episode in playedEpisodes {
+                TempItem.playedArray.append(episode)
+            }
+        }
+        
+        
     }
+
     
     func login() {
+        loginButton.addSubview(loadingSpinner)
+        loadingSpinner.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor).isActive = true
+        loadingSpinner.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor).isActive = true
+        loadingSpinner.startAnimating()
+
+
+
+
         if saveUsernameSwitch.isOn {
             print("username saved")
             saveUsername = true
@@ -103,7 +129,7 @@ class LoginViewController: TDCViewController {
             print("bio auth not saved")
             useBioAuth = false
         }
-         userObject.saveUsername = saveUsername
+        userObject.saveUsername = saveUsername
         userObject.useBioAuth = useBioAuth
 
         if saveUsername == true, let username = usernameTextField.text {
@@ -116,7 +142,6 @@ class LoginViewController: TDCViewController {
         }
         
         try! realm.write {
-            
             realm.deleteAll()
             userObject.saveUsername = saveUsername
             userObject.userName = userObject.userName
@@ -126,7 +151,7 @@ class LoginViewController: TDCViewController {
         
         
         if TempItem.parsingCompleted == false {
-            dataModels.makeAPIPost(username: userObject.userName, password: userObject.userPass)
+            makeAPIPost(username: userObject.userName, password: userObject.userPass)
         } else {
             print("data has already been loaded")
         }

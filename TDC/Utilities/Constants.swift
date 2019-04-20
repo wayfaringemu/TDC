@@ -20,3 +20,17 @@ struct Constants {
     
 }
 
+enum CurrentButton {
+    case play
+    case pause
+}
+
+struct TempItem {
+    static var episodeArray = [Episode]()
+    static var parsingCompleted = false
+    static var currentEpisode: PlayedEpisode?
+    static var indexSelected = 0
+    static var playedArray = [PlayedEpisode]()
+}
+
+

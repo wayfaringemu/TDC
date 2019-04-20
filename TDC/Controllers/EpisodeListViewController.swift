@@ -11,7 +11,7 @@ import UIKit
 class EpisodeListViewController: TDCViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var controlsView: UIView!
+    @IBOutlet weak var controlsView: RoundShadowView!
     @IBOutlet weak var controlsUIImageView: UIImageView!
     @IBOutlet weak var controlsButton: UIButton!
     
