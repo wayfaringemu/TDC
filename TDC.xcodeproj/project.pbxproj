@@ -11,9 +11,12 @@
 		A902E24A2258F94C00682434 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A967EBD5225822A700FB6755 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A902E24C2258F95200682434 /* SwiftyXMLParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A967EBD3225821F800FB6755 /* SwiftyXMLParser.framework */; };
 		A902E24D2258F95200682434 /* SwiftyXMLParser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A967EBD3225821F800FB6755 /* SwiftyXMLParser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A902E251225D822D00682434 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A902E24F225D822D00682434 /* RealmSwift.framework */; };
+		A902E252225D822D00682434 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A902E24F225D822D00682434 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A902E253225D822D00682434 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A902E250225D822D00682434 /* Realm.framework */; };
+		A902E254225D822D00682434 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A902E250225D822D00682434 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A967EBA02258095000FB6755 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A967EB9F2258095000FB6755 /* AppDelegate.swift */; };
 		A967EBA52258095000FB6755 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A967EBA32258095000FB6755 /* Main.storyboard */; };
-		A967EBA82258095000FB6755 /* TDC.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A967EBA62258095000FB6755 /* TDC.xcdatamodeld */; };
 		A967EBAA2258095200FB6755 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A967EBA92258095200FB6755 /* Assets.xcassets */; };
 		A967EBAD2258095200FB6755 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A967EBAB2258095200FB6755 /* LaunchScreen.storyboard */; };
 		A967EBB82258095200FB6755 /* TDCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A967EBB72258095200FB6755 /* TDCTests.swift */; };
@@ -42,8 +45,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				A902E254225D822D00682434 /* Realm.framework in Embed Frameworks */,
 				A902E24A2258F94C00682434 /* Alamofire.framework in Embed Frameworks */,
 				A902E24D2258F95200682434 /* SwiftyXMLParser.framework in Embed Frameworks */,
+				A902E252225D822D00682434 /* RealmSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,10 +56,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A902E24F225D822D00682434 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		A902E250225D822D00682434 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		A967EB9C2258095000FB6755 /* TDC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TDC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A967EB9F2258095000FB6755 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A967EBA42258095000FB6755 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A967EBA72258095000FB6755 /* TDC.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TDC.xcdatamodel; sourceTree = "<group>"; };
 		A967EBA92258095200FB6755 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A967EBAC2258095200FB6755 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A967EBAE2258095200FB6755 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,8 +83,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A902E253225D822D00682434 /* Realm.framework in Frameworks */,
 				A902E2492258F94C00682434 /* Alamofire.framework in Frameworks */,
 				A902E24C2258F95200682434 /* SwiftyXMLParser.framework in Frameworks */,
+				A902E251225D822D00682434 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +103,8 @@
 		A967EB932258095000FB6755 = {
 			isa = PBXGroup;
 			children = (
+				A902E250225D822D00682434 /* Realm.framework */,
+				A902E24F225D822D00682434 /* RealmSwift.framework */,
 				A967EB9E2258095000FB6755 /* TDC */,
 				A967EBB62258095200FB6755 /* TDCTests */,
 				A967EB9D2258095000FB6755 /* Products */,
@@ -121,7 +131,6 @@
 				A967EBA92258095200FB6755 /* Assets.xcassets */,
 				A967EBAB2258095200FB6755 /* LaunchScreen.storyboard */,
 				A967EBAE2258095200FB6755 /* Info.plist */,
-				A967EBA62258095000FB6755 /* TDC.xcdatamodeld */,
 			);
 			path = TDC;
 			sourceTree = "<group>";
@@ -272,7 +281,6 @@
 				A967EBC922580D9F00FB6755 /* EpisodeListViewController.swift in Sources */,
 				A967EBCB22580DDA00FB6755 /* EpisodePlayerViewController.swift in Sources */,
 				A967EBCD225819D100FB6755 /* DataModels.swift in Sources */,
-				A967EBA82258095000FB6755 /* TDC.xcdatamodeld in Sources */,
 				A967EBA02258095000FB6755 /* AppDelegate.swift in Sources */,
 				A967EBCF225819DF00FB6755 /* Constants.swift in Sources */,
 			);
@@ -549,19 +557,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		A967EBA62258095000FB6755 /* TDC.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				A967EBA72258095000FB6755 /* TDC.xcdatamodel */,
-			);
-			currentVersion = A967EBA72258095000FB6755 /* TDC.xcdatamodel */;
-			path = TDC.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = A967EB942258095000FB6755 /* Project object */;
 }
